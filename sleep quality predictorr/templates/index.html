@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Quality Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Tailwind via CDN for utility convenience, but custom CSS will handle the aesthetics as requested -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-poppins min-h-screen flex items-center justify-center">
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-400">
+                Sleep Quality Predictor
+            </h1>
+            <p class="text-gray-400">AI-powered insights for better rest</p>
+        </header>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Input Section -->
+            <div class="glass-panel p-8 rounded-2xl shadow-lg">
+                <h2 class="text-xl font-semibold mb-6 flex items-center">
+                    <span class="mr-2">🌙</span> Daily Habits
+                </h2>
+                
+                <form id="predictionForm" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Sleep Duration (hrs)</label>
+                            <input type="number" id="sleep_duration" step="0.5" min="0" max="24" value="7.5" class="input-field" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Bedtime</label>
+                            <input type="time" id="bedtime" value="23:00" class="input-field" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Wake-up Time</label>
+                            <input type="time" id="wake_time" value="07:00" class="input-field" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Caffeine Intake</label>
+                            <select id="caffeine" class="input-field">
+                                <option value="None">None</option>
+                                <option value="Low" selected>Low</option>
+                                <option value="Moderate">Moderate</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Exercise (mins)</label>
+                            <input type="number" id="exercise_duration" min="0" value="30" class="input-field">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Screen Time (mins)</label>
+                            <input type="number" id="screen_time" min="0" value="45" class="input-field">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Stress Level (0-10)</label>
+                        <input type="range" id="stress_level" min="0" max="10" value="4" class="w-full range-slider">
+                        <div class="text-right text-xs text-blue-300" id="stress_val">4</div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Mood</label>
+                            <select id="mood" class="input-field">
+                                <option value="Happy">Happy</option>
+                                <option value="Neutral" selected>Neutral</option>
+                                <option value="Sad">Sad</option>
+                                <option value="Anxious">Anxious</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Interruptions?</label>
+                            <select id="interruptions" class="input-field">
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-3 mt-4 rounded-xl font-semibold bg-gradient-to-r from-blue-500 to-purple-600 hover:opacity-90 transition-all shadow-lg shadow-blue-500/30">
+                        Predict Sleep Quality
+                    </button>
+                    <button type="button" id="resetBtn" class="w-full text-sm text-gray-500 hover:text-gray-300 mt-2">Reset Inputs</button>
+                </form>
+            </div>
+
+            <!-- Output Section -->
+            <div id="resultSection" class="glass-panel p-8 rounded-2xl shadow-lg flex flex-col justify-center items-center text-center opacity-70 cursor-not-allowed">
+                <div class="w-24 h-24 bg-gray-700/50 rounded-full flex items-center justify-center mb-6 text-4xl shadow-inner" id="resultIcon">
+                    💤
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Prediction Awaited...</h3>
+                <p class="text-gray-400 mb-6">Enter your daily habits and click predict to see your result.</p>
+                
+                <div id="tipsContainer" class="hidden text-left bg-gray-800/50 p-4 rounded-xl w-full border border-gray-700">
+                    <h4 class="text-sm font-semibold text-purple-300 mb-2">💡 Tips for Improvement:</h4>
+                    <ul id="tipsList" class="text-sm text-gray-300 space-y-2 list-disc pl-4"></ul>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center text-gray-600 text-sm">
+            <p>&copy; 2024 SleepQuality AI Model</p>
+        </footer>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
